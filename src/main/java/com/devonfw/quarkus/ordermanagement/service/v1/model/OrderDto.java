@@ -1,6 +1,6 @@
 package com.devonfw.quarkus.ordermanagement.service.v1.model;
 
-import com.devonfw.quarkus.general.domain.model.OrderStatus;
+import com.devonfw.quarkus.ordermanagement.domain.model.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 

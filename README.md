@@ -1,4 +1,4 @@
-# Quarkus Project
+# Quarkus Demo Project: Order Service
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
@@ -26,7 +26,16 @@ You can run your application in dev mode that enables live coding using:
 ```
 If the port is used, consider use `-Ddebug=<port>` to specify debug port manually.
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8081/q/dev/.
+
+## Access your endpoints
+
+Go to http://localhost:8081/order/v1
+
+## OpenAPI & Swagger UI
+
+With your app running, go to http://localhost:8081/q/swagger-ui to see the Swagger UI visualizing your API. You can access the YAML OpenAPI schema under http://localhost:8081/q/openapi
+
 
 ## Packaging and running the application
 

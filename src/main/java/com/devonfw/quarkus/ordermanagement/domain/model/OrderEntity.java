@@ -1,8 +1,6 @@
 package com.devonfw.quarkus.ordermanagement.domain.model;
 
-
 import com.devonfw.quarkus.general.domain.model.ApplicationPersistenceEntity;
-import com.devonfw.quarkus.general.domain.model.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 
