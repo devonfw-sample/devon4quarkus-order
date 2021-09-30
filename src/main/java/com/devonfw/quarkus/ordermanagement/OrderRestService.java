@@ -5,7 +5,6 @@ import com.devonfw.quarkus.ordermanagement.logic.UcManageOrder;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.springframework.data.domain.Page;
 
 import javax.inject.Inject;
