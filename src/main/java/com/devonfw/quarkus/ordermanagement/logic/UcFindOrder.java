@@ -11,6 +11,7 @@ import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Named
 @Transactional
+@ApplicationScoped
 public class UcFindOrder {
 
     @Inject
@@ -41,13 +43,13 @@ public class UcFindOrder {
         return null;
     }
 
-    public Page<OrderDto> findOrder() {
+    public Page<OrderDto> findOrders() {
         List<OrderEntity> allOrderEntity = orderRepository.findAll();
         return new PageImpl<>(orderMapper.map(allOrderEntity));
     }
 
-    public Page<ItemDto> findItemByOrderId(String id) {
-        List<ItemEntity> itemFoundByOrderId = itemRepository.findByOrderId(Long.valueOf(id));
+    public Page<ItemDto> findItemsByOrderId(String id) {
+        List<ItemEntity> itemFoundByOrderId = itemRepository.findItemsByOrderId(Long.valueOf(id));
         return new PageImpl<>(itemMapper.map(itemFoundByOrderId));
     }
 

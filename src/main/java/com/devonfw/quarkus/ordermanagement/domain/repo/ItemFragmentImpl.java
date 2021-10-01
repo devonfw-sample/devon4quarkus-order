@@ -18,7 +18,7 @@ public class ItemFragmentImpl implements ItemFragment {
     }
 
     @Override
-    public List<ItemEntity> findByOrderId(Long id) {
+    public List<ItemEntity> findItemsByOrderId(Long id) {
         Query query = this.em.createQuery("select a from ItemEntity a where productorder_id = :id").setParameter("id", id);
         return query.getResultList();
     }

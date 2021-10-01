@@ -10,6 +10,7 @@ import com.devonfw.quarkus.ordermanagement.domain.repo.OrderRepository;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Named
 @Transactional
+@ApplicationScoped
 public class UcManageOrder {
 
     @Inject

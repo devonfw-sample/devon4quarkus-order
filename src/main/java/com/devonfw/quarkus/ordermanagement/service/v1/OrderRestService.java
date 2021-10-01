@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.ordermanagement;
+package com.devonfw.quarkus.ordermanagement.service.v1;
 
 import com.devonfw.quarkus.ordermanagement.logic.UcFindOrder;
 import com.devonfw.quarkus.ordermanagement.logic.UcManageOrder;
@@ -19,7 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path("/order/v1")
+@Path("/ordermanagement/v1/order")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrderRestService {
@@ -32,7 +32,7 @@ public class OrderRestService {
 
     @GET
     public Page<OrderDto> getAll() {
-        return ucFindOrder.findOrder();
+        return ucFindOrder.findOrders();
     }
 
     @GET
@@ -43,8 +43,8 @@ public class OrderRestService {
 
     @GET
     @Path("item/{id}")
-    public Page<ItemDto> getItemByOrderId(@PathParam("id") String id) {
-        return ucFindOrder.findItemByOrderId(id);
+    public Page<ItemDto> getItemsByOrderId(@PathParam("id") String id) {
+        return ucFindOrder.findItemsByOrderId(id);
     }
 
     @POST
