@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  postgresdb:
+    image: postgres:latest
+    container_name: postgresdb-order
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    command: [-cmax_prepared_transactions=100]
+    ports:
+      - "5433:5432"
+    networks:
+      - demo
+
+networks:
+  demo:

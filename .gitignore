@@ -1,0 +1,26 @@
+.*
+!.github
+!.gitignore
+!.dockerignore
+!.mvn
+*.bak
+*.log
+*.class
+*.diff
+*.patch
+*.iml
+*.jar
+*.war
+*.ear
+
+target
+eclipse-target
+war
+**/src/generated/
+**/tmp/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
