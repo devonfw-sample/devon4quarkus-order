@@ -31,8 +31,8 @@ public class OrderRestServiceTest {
   @WithDBData(value = "data/order.xls", deleteBeforeInsert = true)
   void getAll() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/orders").then().statusCode(200)
-        .extract().response();
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order").then()
+        .statusCode(200).extract().response();
 
     int orders = Integer.valueOf(response.jsonPath().getString("totalElements"));
     assertEquals(2, orders);
@@ -41,8 +41,8 @@ public class OrderRestServiceTest {
   @Test
   void getNonExistingTest() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/orders/doesnoexist").then().log()
-        .all().statusCode(500).extract().response();
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON)
+        .get("/ordermanagement/v1/order/doesnoexist").then().log().all().statusCode(500).extract().response();
   }
 
   @Test
@@ -55,13 +55,14 @@ public class OrderRestServiceTest {
     order.setPrice(BigDecimal.valueOf(1));
     order.setStatus(OrderStatus.PAID);
 
-    Response response = given().when().body(order).contentType(MediaType.APPLICATION_JSON).post("/orders").then().log()
-        .all().statusCode(200).header("Location", nullValue()).extract().response();
+    Response response = given().when().body(order).contentType(MediaType.APPLICATION_JSON)
+        .post("/ordermanagement/v1/order").then().log().all().statusCode(200).header("Location", nullValue()).extract()
+        .response();
 
     assertEquals(200, response.statusCode());
 
-    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/orders").then().log().all().statusCode(200)
-        .extract().response();
+    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order").then().log()
+        .all().statusCode(200).extract().response();
 
     int orders = Integer.valueOf(response.jsonPath().getString("totalElements"));
     assertEquals(1, orders);
@@ -74,8 +75,8 @@ public class OrderRestServiceTest {
   @WithDBData(value = "data/order.xls", deleteBeforeInsert = true)
   public void testGetById() {
 
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/orders/1").then().statusCode(200)
-        .body("paymentDate", equalTo("2021-10-05 20:20:00"));
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
+        .statusCode(200).body("paymentDate", equalTo("2021-10-05 20:20:00"));
   }
 
   @Test
@@ -83,18 +84,19 @@ public class OrderRestServiceTest {
   public void deleteById() {
 
     // delete
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/orders/1").then().statusCode(200)
-        .body("creationDate", equalTo("2021-10-01 12:00:00"));
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/ordermanagement/v1/order/1").then()
+        .statusCode(200).body("creationDate", equalTo("2021-10-01 12:00:00"));
 
     // after deletion it should be deleted
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/orders/1").then().statusCode(500);
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
+        .statusCode(500);
   }
 
   @Test
   @WithDBData(value = "data/order.xls", deleteBeforeInsert = true)
   public void getOrderStatus() {
 
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/orders/1").then().statusCode(200)
-        .body("status", equalTo(OrderStatus.PAID));
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
+        .statusCode(200).body("status", equalTo(OrderStatus.PAID));
   }
 }
