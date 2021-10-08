@@ -16,9 +16,8 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-//import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
-//import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
-import com.devonfw.quarkus.general.restclient.*;
+import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
+import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
 import com.devonfw.quarkus.ordermanagement.domain.model.ItemEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderStatus;
@@ -41,7 +40,7 @@ public class UcManageOrder {
 
   @Inject
   @RestClient
-  public ProductsRestClient productsRestClient;
+  ProductsRestClient productsRestClient;
 
   @Inject
   OrderMapper mapper;
