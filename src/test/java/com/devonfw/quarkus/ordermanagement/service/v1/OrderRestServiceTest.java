@@ -76,7 +76,7 @@ public class OrderRestServiceTest {
   public void testGetById() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
-        .statusCode(200).body("paymentDate", equalTo("2021-10-05 20:20:00"));
+        .statusCode(200).body("paymentDate", equalTo("2021-10-01T10:05:00Z"));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class OrderRestServiceTest {
 
     // delete
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/ordermanagement/v1/order/1").then()
-        .statusCode(200).body("creationDate", equalTo("2021-10-01 12:00:00"));
+        .statusCode(204);
 
     // after deletion it should be deleted
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
@@ -97,6 +97,6 @@ public class OrderRestServiceTest {
   public void getOrderStatus() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
-        .statusCode(200).body("status", equalTo(OrderStatus.PAID));
+        .statusCode(200).body("status", equalTo(OrderStatus.PAID.toString()));
   }
 }

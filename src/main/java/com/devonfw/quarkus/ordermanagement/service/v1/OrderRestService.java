@@ -71,13 +71,13 @@ public class OrderRestService {
   @APIResponse(responseCode = "500") })
   @Operation(operationId = "createNewOrder", description = "Stores new Order in DB")
   @POST
-  public void createNewOrder(NewOrderDto dto) {
+  public OrderDto createNewOrder(NewOrderDto dto) {
 
-    this.ucManageOrder.saveOrder(dto);
+    return this.ucManageOrder.saveOrder(dto);
   }
 
   @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = OrderDto.class))),
+  @APIResponse(responseCode = "204", description = "OK", content = @Content(schema = @Schema(implementation = OrderDto.class))),
   @APIResponse(responseCode = "404", description = "Order not found"), @APIResponse(responseCode = "500") })
   @Operation(operationId = "deleteOrderById", description = "Deletes the Order with given id")
   @DELETE

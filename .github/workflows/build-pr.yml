@@ -1,4 +1,4 @@
-name: CI Build PR
+9name: CI Build PR
 on: pull_request
 jobs:
   build:
