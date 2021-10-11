@@ -23,11 +23,15 @@ import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
+//Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml
+//we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 
 @QuarkusTest
 @QuarkusTestResource(DockerComposeTestResource.class)
 public class OrderRestServiceTest {
   @Test
+  // we also started a micro container, that can populated DB with data from excel
+  // annotating class or method with @WithDBData allows us to scope data for each test even if we use the same DB
   @WithDBData(value = "data/order.xls", deleteBeforeInsert = true)
   void getAll() {
 
@@ -50,10 +54,10 @@ public class OrderRestServiceTest {
   void createNewOrder() {
 
     OrderDto order = new OrderDto();
-    order.setCreationDate(Instant.EPOCH);
-    order.setPaymentDate(Instant.EPOCH);
+    order.setCreationDate(Instant.now());
+    order.setPaymentDate(Instant.now());
     order.setPrice(BigDecimal.valueOf(1));
-    order.setStatus(OrderStatus.PAID);
+    order.setStatus(OrderStatus.OPEN);
 
     Response response = given().when().body(order).contentType(MediaType.APPLICATION_JSON)
         .post("/ordermanagement/v1/order").then().log().all().statusCode(200).header("Location", nullValue()).extract()
@@ -76,7 +80,7 @@ public class OrderRestServiceTest {
   public void testGetById() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
-        .statusCode(200).body("paymentDate", equalTo("2021-10-01T10:05:00Z"));
+        .statusCode(200).body("paymentDate", equalTo(Instant.now()));
   }
 
   @Test
@@ -97,6 +101,6 @@ public class OrderRestServiceTest {
   public void getOrderStatus() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/ordermanagement/v1/order/1").then()
-        .statusCode(200).body("status", equalTo(OrderStatus.PAID.toString()));
+        .statusCode(200).body("status", equalTo(OrderStatus.OPEN.toString()));
   }
 }

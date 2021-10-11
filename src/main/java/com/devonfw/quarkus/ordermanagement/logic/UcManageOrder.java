@@ -47,7 +47,7 @@ public class UcManageOrder {
 
   private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
-  public OrderDto saveOrder(NewOrderDto dto) {
+  public OrderDto saveOrder(NewOrderDto dto) throws ParseException {
 
     OrderEntity entity = new OrderEntity();
     entity.setStatus(OrderStatus.OPEN);
@@ -56,7 +56,7 @@ public class UcManageOrder {
       try {
         entity.setPaymentDate(this.dateFormatter.parse(dto.getPaymentDate()).toInstant());
       } catch (ParseException e) {
-        throw e;
+        throw new ParseException("payment date is null", 0);
       }
     }
 

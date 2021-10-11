@@ -73,7 +73,13 @@ public class OrderRestService {
   @POST
   public OrderDto createNewOrder(NewOrderDto dto) {
 
-    return this.ucManageOrder.saveOrder(dto);
+    OrderDto odto = null;
+    try {
+      odto = this.ucManageOrder.saveOrder(dto);
+    } catch (Exception e) {
+
+    }
+    return odto;
   }
 
   @APIResponses({
