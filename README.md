@@ -27,7 +27,7 @@ If the port is used, consider use `-Ddebug=<port>` to specify debug port manuall
 
 ## Access your endpoints
 
-Go to http://localhost:8081/order/v1
+Go to http://localhost:8081//ordermanagement/v1/order
 
 ## OpenAPI & Swagger UI
 
