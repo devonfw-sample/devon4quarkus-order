@@ -103,6 +103,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
@@ -221,8 +226,8 @@
               <fieldGen>LOMBOK</fieldGen>
               <jsonLib>JACKSON</jsonLib>
               <annotations>
-                <annotation>javax.inject.Singleton</annotation>
                 <annotation>org.eclipse.microprofile.rest.client.inject.RegisterRestClient(configKey="product-service-key")</annotation>
+                <annotation>javax.enterprise.context.ApplicationScoped</annotation>
               </annotations>
               <modelAnnotations>
                 <modelAnnotation>lombok.ToString</modelAnnotation>
