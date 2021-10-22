@@ -2,7 +2,7 @@ version: '3.9'
 services:
   demo-db:
     container_name: demo-db
-    image: postgres:latest
+    image: postgres:13
     environment:
       POSTGRES_DB: "demo"
       POSTGRES_USER: "demo"
