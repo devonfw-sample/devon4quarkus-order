@@ -2,11 +2,12 @@ version: '3.9'
 services:
   demo-db:
     container_name: demo-db
-    image: postgres:13
+    image: postgres:latest
     environment:
       POSTGRES_DB: "demo"
       POSTGRES_USER: "demo"
       POSTGRES_PASSWORD: "demo"
+      POSTGRES_HOST_AUTH_METHOD: trust
     labels:
       - "test.priority=90"
       - "test.Wait.forLogMessage.regex=.*database system is ready to accept connections.*\\s"
