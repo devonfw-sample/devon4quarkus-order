@@ -121,27 +121,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client-jackson</artifactId>
     </dependency>
+    <!--logging-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-logging-json</artifactId>
+    </dependency>
     <!--tkit-->
-    <dependency>
-      <groupId>org.tkit.quarkus</groupId>
-      <artifactId>tkit-quarkus-rest</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus</groupId>
-      <artifactId>tkit-quarkus-log-cdi</artifactId>
-      <version>1.4.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus</groupId>
-      <artifactId>tkit-quarkus-log-rs</artifactId>
-      <version>1.4.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus</groupId>
-      <artifactId>tkit-quarkus-log-json</artifactId>
-      <version>1.4.5</version>
-    </dependency>
     <dependency>
       <groupId>org.tkit.quarkus</groupId>
       <artifactId>tkit-quarkus-test</artifactId>
@@ -205,7 +190,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--generate rest client from openapi file-->
       <plugin>
         <groupId>org.tkit.maven</groupId>
         <artifactId>tkit-mp-restclient-plugin</artifactId>
