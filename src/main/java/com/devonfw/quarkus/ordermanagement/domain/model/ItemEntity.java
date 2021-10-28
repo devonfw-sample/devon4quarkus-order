@@ -15,7 +15,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "Item")
+@Table(name = "ITEM")
 public class ItemEntity extends ApplicationPersistenceEntity {
 
     private String title;

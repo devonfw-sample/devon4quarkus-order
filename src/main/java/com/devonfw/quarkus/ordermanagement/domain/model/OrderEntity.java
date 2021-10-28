@@ -14,7 +14,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "ProductOrder")
+// ORDER is a reserved keyword in SQL (for ORDER BY) and using this as table name causes several issues
+@Table(name = "PRODUCT_ORDER")
 public class OrderEntity extends ApplicationPersistenceEntity {
 
     private BigDecimal price;
