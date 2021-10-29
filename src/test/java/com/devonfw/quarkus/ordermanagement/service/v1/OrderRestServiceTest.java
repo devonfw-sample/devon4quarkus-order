@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml.
  * We get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
  */
-
 @QuarkusTest
 @QuarkusTestResource(DockerComposeTestResource.class)
 public class OrderRestServiceTest {
@@ -91,7 +91,7 @@ public class OrderRestServiceTest {
         mockRestClient();
 
         NewOrderDto order = new NewOrderDto();
-        order.setPaymentDate("31-10-2021");
+        order.setPaymentDate(new Date(2021, 10, 31));
         order.setOrderedProductIds(Arrays.asList(10L, 20L));
 
         given().when().body(order).contentType(MediaType.APPLICATION_JSON).post(BASE_PATH)

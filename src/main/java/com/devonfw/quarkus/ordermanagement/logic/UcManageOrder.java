@@ -38,19 +38,11 @@ public class UcManageOrder {
     @RestClient
     ProductsRestClient productsRestClient;
 
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-
     public void saveOrder(NewOrderDto dto) {
         OrderEntity entity = new OrderEntity();
         entity.setStatus(OrderStatus.OPEN);
         entity.setCreationDate(Instant.now());
-        if (dto.getPaymentDate() != null) {
-            try {
-                entity.setPaymentDate(dateFormatter.parse(dto.getPaymentDate()).toInstant());
-            } catch (ParseException e) {
-                return;
-            }
-        }
+        entity.setPaymentDate(dto.getPaymentDate().toInstant());
 
         List<ItemEntity> listItems = new ArrayList<>();
         BigDecimal totalPrice = new BigDecimal(0.0);
@@ -75,16 +67,16 @@ public class UcManageOrder {
         }
     }
 
-    public void deleteOrder(String id) {
-        itemRepository.deleteAllByProductorderId(Long.valueOf(id));
-        orderRepository.deleteById(Long.valueOf(id));
+    public void deleteOrder(Long id) {
+        itemRepository.deleteAllByProductorderId(id);
+        orderRepository.deleteById(id);
     }
 
-    public void editOrderStatus(String id, String status) {
-        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(Long.valueOf(id));
+    public void editOrderStatus(Long id, OrderStatus status) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
             OrderEntity orderEntity = orderEntityOptional.get();
-            orderEntity.setStatus(OrderStatus.valueOf(status.toUpperCase()));
+            orderEntity.setStatus(status);
             orderRepository.save(orderEntity);
         }
     }

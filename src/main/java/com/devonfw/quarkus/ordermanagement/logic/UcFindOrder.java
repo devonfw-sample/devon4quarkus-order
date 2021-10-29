@@ -35,8 +35,8 @@ public class UcFindOrder {
     @Inject
     ItemMapper itemMapper;
 
-    public OrderDto findOrder(String id) {
-        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(Long.valueOf(id));
+    public OrderDto findOrder(Long id) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
             return orderMapper.map(orderEntityOptional.get());
         }
@@ -48,9 +48,8 @@ public class UcFindOrder {
         return new PageImpl<>(orderMapper.map(allOrderEntity));
     }
 
-    public Page<ItemDto> findItemsByOrderId(String id) {
-        List<ItemEntity> itemFoundByOrderId = itemRepository.findAllByProductorderId(Long.valueOf(id));
+    public Page<ItemDto> findItemsByOrderId(Long id) {
+        List<ItemEntity> itemFoundByOrderId = itemRepository.findAllByProductorderId(id);
         return new PageImpl<>(itemMapper.map(itemFoundByOrderId));
     }
-
 }

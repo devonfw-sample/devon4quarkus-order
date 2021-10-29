@@ -1,5 +1,6 @@
 package com.devonfw.quarkus.ordermanagement.service.v1;
 
+import com.devonfw.quarkus.ordermanagement.domain.model.OrderStatus;
 import com.devonfw.quarkus.ordermanagement.logic.UcFindOrder;
 import com.devonfw.quarkus.ordermanagement.logic.UcManageOrder;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
@@ -37,13 +38,13 @@ public class OrderRestService {
 
     @GET
     @Path("{id}")
-    public OrderDto getOrderById(@PathParam("id") String id) {
+    public OrderDto getOrderById(@PathParam("id") Long id) {
         return ucFindOrder.findOrder(id);
     }
 
     @GET
     @Path("item/{id}")
-    public Page<ItemDto> getItemsByOrderId(@PathParam("id") String id) {
+    public Page<ItemDto> getItemsByOrderId(@PathParam("id") Long id) {
         return ucFindOrder.findItemsByOrderId(id);
     }
 
@@ -54,13 +55,14 @@ public class OrderRestService {
 
     @DELETE
     @Path("{id}")
-    public void deleteOrderById(@PathParam("id") String id) {
+    public void deleteOrderById(@PathParam("id") Long id) {
         ucManageOrder.deleteOrder(id);
     }
 
     @PUT
     @Path("edit-status/{id}/{status}")
-    public void editOrderStatus(@PathParam("id") String id, @PathParam("status") String status) {
+    public void editOrderStatus(@PathParam("id") Long id, @PathParam("status") String statusStr) {
+        OrderStatus status = OrderStatus.valueOf(statusStr.toUpperCase());
         ucManageOrder.editOrderStatus(id, status);
     }
 }
