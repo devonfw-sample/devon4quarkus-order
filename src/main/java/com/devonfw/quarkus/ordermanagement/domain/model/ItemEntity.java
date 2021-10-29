@@ -22,9 +22,9 @@ public class ItemEntity extends ApplicationPersistenceEntity {
 
     private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "productorder_id")
-    private OrderEntity order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productorder", referencedColumnName = "id")
+    private OrderEntity productorder;
 
     private Instant creationDate;
 

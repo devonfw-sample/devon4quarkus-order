@@ -49,7 +49,7 @@ public class UcFindOrder {
     }
 
     public Page<ItemDto> findItemsByOrderId(String id) {
-        List<ItemEntity> itemFoundByOrderId = itemRepository.findItemsByOrderId(Long.valueOf(id));
+        List<ItemEntity> itemFoundByOrderId = itemRepository.findAllByProductorderId(Long.valueOf(id));
         return new PageImpl<>(itemMapper.map(itemFoundByOrderId));
     }
 

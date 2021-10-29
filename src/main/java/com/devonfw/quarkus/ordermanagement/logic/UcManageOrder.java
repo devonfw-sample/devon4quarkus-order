@@ -70,13 +70,13 @@ public class UcManageOrder {
 
         OrderEntity created = orderRepository.save(entity);
         for (ItemEntity e : listItems) {
-            e.setOrder(created);
+            e.setProductorder(created);
             itemRepository.save(e);
         }
     }
 
     public void deleteOrder(String id) {
-        itemRepository.deleteByOrderId(Long.valueOf(id));
+        itemRepository.deleteAllByProductorderId(Long.valueOf(id));
         orderRepository.deleteById(Long.valueOf(id));
     }
 
