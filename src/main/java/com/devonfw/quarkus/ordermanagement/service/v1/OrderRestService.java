@@ -6,6 +6,7 @@ import com.devonfw.quarkus.ordermanagement.logic.UcManageOrder;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
+import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
 import org.springframework.data.domain.Page;
 
 import javax.inject.Inject;
@@ -19,7 +20,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-
 @Path("/ordermanagement/v1/order")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,9 +31,10 @@ public class OrderRestService {
     @Inject
     UcManageOrder ucManageOrder;
 
-    @GET
-    public Page<OrderDto> getAll() {
-        return ucFindOrder.findOrders();
+    @POST
+    @Path("/search")
+    public Page<OrderDto> getOrderByCriteria(OrderSearchCriteriaDto searchCriteriaDto) {
+        return ucFindOrder.findOrdersByCriteria(searchCriteriaDto);
     }
 
     @GET

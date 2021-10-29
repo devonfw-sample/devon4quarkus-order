@@ -8,8 +8,10 @@ import com.devonfw.quarkus.ordermanagement.service.v1.mapper.ItemMapper;
 import com.devonfw.quarkus.ordermanagement.service.v1.mapper.OrderMapper;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
+import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -43,9 +45,9 @@ public class UcFindOrder {
         return null;
     }
 
-    public Page<OrderDto> findOrders() {
-        List<OrderEntity> allOrderEntity = orderRepository.findAll();
-        return new PageImpl<>(orderMapper.map(allOrderEntity));
+    public Page<OrderDto> findOrdersByCriteria(OrderSearchCriteriaDto cto) {
+        List<OrderEntity> orders = orderRepository.findOrdersByCriteria(cto.getPriceMax(), cto.getPriceMin());
+        return new PageImpl<>(orderMapper.map(orders), PageRequest.of(cto.getPageNumber(), cto.getPageSize()), orders.size());
     }
 
     public Page<ItemDto> findItemsByOrderId(Long id) {

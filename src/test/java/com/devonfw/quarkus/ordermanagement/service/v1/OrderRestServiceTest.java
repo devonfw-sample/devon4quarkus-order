@@ -3,6 +3,7 @@ package com.devonfw.quarkus.ordermanagement.service.v1;
 import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
 import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
+import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -40,12 +41,27 @@ public class OrderRestServiceTest {
 
     @Test
     @WithDBData(value = {"data/order.xls"}, deleteBeforeInsert = true, deleteAfterTest = true)
-    public void getAll() {
+    public void getOrderByCriteria() {
+        OrderSearchCriteriaDto cto = new OrderSearchCriteriaDto();
+        cto.setPriceMin(BigDecimal.valueOf(0));
+        cto.setPriceMax(BigDecimal.valueOf(100));
+        cto.setPageNumber(0);
+        cto.setPageSize(10);
+
         given().when().contentType(MediaType.APPLICATION_JSON)
-                .get(BASE_PATH)
+                .body(cto)
+                .post(BASE_PATH + "/search")
                 .then()
                 .statusCode(200)
                 .body("totalElements", equalTo(2));
+
+        cto.setPriceMax(BigDecimal.valueOf(20));
+        given().when().contentType(MediaType.APPLICATION_JSON)
+                .body(cto)
+                .post(BASE_PATH + "/search")
+                .then()
+                .statusCode(200)
+                .body("totalElements", equalTo(1));
     }
 
     @Test
@@ -100,10 +116,10 @@ public class OrderRestServiceTest {
 
         // re-get the created order
         given().when().contentType(MediaType.APPLICATION_JSON)
-                .get(BASE_PATH)
+                .get(BASE_PATH + "/1")
                 .then()
                 .statusCode(200)
-                .body("totalElements", equalTo(1));
+                .body("price", equalTo(28.5F));
 
         // get items of created order
         io.restassured.response.Response response_items = given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/item/1")

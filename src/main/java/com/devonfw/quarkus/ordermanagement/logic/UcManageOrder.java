@@ -16,8 +16,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
