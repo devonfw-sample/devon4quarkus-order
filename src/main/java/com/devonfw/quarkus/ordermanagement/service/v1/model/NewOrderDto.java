@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class NewOrderDto {
 
-  @Schema(nullable = false, description = "Payment date in format dd-MM-yyyy")
+  @Schema(nullable = false, description = "Payment date in format yyyy-mm-ddThh:mm:ssZ")
   private Instant paymentDate;
 
   @Schema(nullable = false, description = "List ids of ordered products")
