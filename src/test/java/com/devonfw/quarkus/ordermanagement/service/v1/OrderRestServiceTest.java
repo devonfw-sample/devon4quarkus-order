@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.PageRequest;
 import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
@@ -49,8 +50,7 @@ public class OrderRestServiceTest {
     OrderSearchCriteriaDto cto = new OrderSearchCriteriaDto();
     cto.setPriceMin(BigDecimal.valueOf(0));
     cto.setPriceMax(BigDecimal.valueOf(100));
-    cto.setPageNumber(0);
-    cto.setPageSize(10);
+    cto.setPageable(PageRequest.of(0, 10));
 
     given().when().contentType(MediaType.APPLICATION_JSON).body(cto).post(BASE_PATH + "/search").then().statusCode(200)
         .body("totalElements", equalTo(2));
