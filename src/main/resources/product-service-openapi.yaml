@@ -1,3 +1,5 @@
+# OpenAPI specification of devon4quarkus product service https://github.com/devonfw-sample/devon4quarkus-reference
+# Used by tkit-mp-restclient-plugin to generate the corresponding rest client
 ---
 openapi: 3.0.3
 info:
