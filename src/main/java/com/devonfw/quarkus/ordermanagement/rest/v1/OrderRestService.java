@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.ordermanagement.service.v1;
+package com.devonfw.quarkus.ordermanagement.rest.v1;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
