@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.ordermanagement.service.v1.mapper;
+package com.devonfw.quarkus.ordermanagement.rest.v1.mapper;
 
 import com.devonfw.quarkus.ordermanagement.domain.model.ItemEntity;
 import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
