@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.ordermanagement.logic;
+dpackage com.devonfw.quarkus.ordermanagement.logic;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +15,11 @@ import com.devonfw.quarkus.ordermanagement.domain.model.ItemEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderEntity;
 import com.devonfw.quarkus.ordermanagement.domain.repo.ItemRepository;
 import com.devonfw.quarkus.ordermanagement.domain.repo.OrderRepository;
-import com.devonfw.quarkus.ordermanagement.service.v1.mapper.ItemMapper;
-import com.devonfw.quarkus.ordermanagement.service.v1.mapper.OrderMapper;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.mapper.ItemMapper;
+import com.devonfw.quarkus.ordermanagement.rest.v1.mapper.OrderMapper;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.ItemDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
 
 @Named
 @Transactional

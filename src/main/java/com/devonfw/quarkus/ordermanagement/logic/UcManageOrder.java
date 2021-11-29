@@ -21,7 +21,7 @@ import com.devonfw.quarkus.ordermanagement.domain.model.OrderEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderStatus;
 import com.devonfw.quarkus.ordermanagement.domain.repo.ItemRepository;
 import com.devonfw.quarkus.ordermanagement.domain.repo.OrderRepository;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.NewOrderDto;
 
 @Named
 @Transactional

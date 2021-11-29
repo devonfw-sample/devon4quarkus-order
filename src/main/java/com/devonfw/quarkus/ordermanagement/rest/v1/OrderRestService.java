@@ -16,10 +16,10 @@ import org.springframework.data.domain.Page;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderStatus;
 import com.devonfw.quarkus.ordermanagement.logic.UcFindOrder;
 import com.devonfw.quarkus.ordermanagement.logic.UcManageOrder;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.ItemDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.ItemDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.NewOrderDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
 
 @Path("/ordermanagement/v1/order")
 @Produces(MediaType.APPLICATION_JSON)
