@@ -249,13 +249,24 @@
               </license>
             </info>
             <!-- This is a placeholder for your service URL. Ex:devon4quarkus.referenceapp.com -->
-            <host></host>
+            <!--<host></host>-->
             <port>8081</port>
-            <basePath>ordermanagement/v1/order</basePath>
+            <basePath>/</basePath>
             <schemes>
               <scheme>http</scheme>
             </schemes>
           </descriptor>
+          <templates>
+            <template>
+              <templateName>OpenApi.yaml.vm</templateName>
+              <outputName>OpenApi.yaml</outputName>
+            </template>
+            <template>
+              <templateName>SwaggerUI.html.vm</templateName>
+              <outputName>SwaggerUI.html</outputName>
+            </template>
+          </templates>
+          <reportFolder>../../src/main/resources/META-INF/resources</reportFolder>
         </configuration>
       </plugin>
     </plugins>
