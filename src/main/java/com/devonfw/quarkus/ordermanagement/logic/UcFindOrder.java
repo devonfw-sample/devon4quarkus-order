@@ -1,4 +1,4 @@
-dpackage com.devonfw.quarkus.ordermanagement.logic;
+package com.devonfw.quarkus.ordermanagement.logic;
 
 import java.util.List;
 import java.util.Optional;
