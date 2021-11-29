@@ -22,8 +22,8 @@ import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
 import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
 import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.NewOrderDto;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.NewOrderDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
