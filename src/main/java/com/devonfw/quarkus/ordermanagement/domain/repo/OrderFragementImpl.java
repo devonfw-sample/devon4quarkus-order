@@ -14,7 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import com.devonfw.quarkus.general.repo.QueryUtil;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.QOrderEntity;
-import com.devonfw.quarkus.ordermanagement.service.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 
