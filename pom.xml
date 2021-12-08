@@ -54,11 +54,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-postgresql</artifactId>
     </dependency>
-    <!-- OpenAPI schema gen & swagger UI -->
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-openapi</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -223,6 +219,55 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Refer http://www.mojohaus.org/servicedocgen-maven-plugin/ for more information regarding usage and documentation generation. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>servicedocgen-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptor>
+            <info>
+              <title>Order Service REST API Documentation</title>
+              <description>This documentation describes the REST API of the order service</description>
+              <contact>
+                <email>icsddevonfwsupport.apps2@capgemini.com</email>
+                <name>devon4j support</name>
+                <url>https://devonfw.com</url>
+              </contact>
+              <license>
+                <url>https://github.com/devonfw-sample/devon4quarkus-order/blob/master/LICENSE</url>
+                <name>Apache License 2.0</name>
+              </license>
+            </info>
+            <!-- This is a placeholder for your service URL. Ex:devon4quarkus.referenceapp.com -->
+            <!--<host></host>-->
+            <port>8081</port>
+            <basePath>/</basePath>
+            <schemes>
+              <scheme>http</scheme>
+            </schemes>
+          </descriptor>
+          <templates>
+            <template>
+              <templateName>OpenApi.yaml.vm</templateName>
+              <outputName>OpenApi.yaml</outputName>
+            </template>
+            <template>
+              <templateName>SwaggerUI.html.vm</templateName>
+              <outputName>SwaggerUI.html</outputName>
+            </template>
+          </templates>
+          <reportFolder>../../src/main/resources/META-INF/resources</reportFolder>
+        </configuration>
       </plugin>
     </plugins>
   </build>
