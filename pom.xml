@@ -266,7 +266,6 @@
               <outputName>SwaggerUI.html</outputName>
             </template>
           </templates>
-          <reportFolder>../../src/main/resources/META-INF/resources</reportFolder>
         </configuration>
       </plugin>
     </plugins>
