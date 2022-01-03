@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
+import com.devonfw.quarkus.general.restclient.product.ProductRestClient;
 import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
 import com.devonfw.quarkus.ordermanagement.domain.model.ItemEntity;
 import com.devonfw.quarkus.ordermanagement.domain.model.OrderEntity;
@@ -36,7 +36,7 @@ public class UcManageOrder {
 
   @Inject
   @RestClient
-  ProductsRestClient productsRestClient;
+  ProductRestClient productsRestClient;
 
   public void saveOrder(NewOrderDto dto) {
 
@@ -48,7 +48,7 @@ public class UcManageOrder {
     List<ItemEntity> listItems = new ArrayList<>();
     BigDecimal totalPrice = new BigDecimal(0.0);
     for (Long id : dto.getOrderedProductIds()) {
-      Response response = this.productsRestClient.getProductById(String.valueOf(id));
+      Response response = this.productsRestClient.productV1IdGet(String.valueOf(id));
       ProductDto productDto = response.readEntity(ProductDto.class);
       ItemEntity itemEntity = new ItemEntity();
       itemEntity.setTitle(productDto.title);
