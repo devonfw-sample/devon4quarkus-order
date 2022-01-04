@@ -23,10 +23,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
 
-import com.devonfw.quarkus.general.restclient.product.ProductRestClient;
-import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
 import com.devonfw.quarkus.ordermanagement.rest.v1.model.NewOrderDto;
 import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.restclient.product.ProductRestClient;
+import com.devonfw.quarkus.ordermanagement.restclient.product.models.ProductDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -136,9 +136,7 @@ public class OrderRestServiceTest {
     product_2.setTitle("new product 2");
     product_2.setDescription("description of product 2");
 
-    Mockito.when(this.productRestClient.productV1IdGet("10"))
-        .thenReturn(javax.ws.rs.core.Response.ok().entity(product_1).build());
-    Mockito.when(this.productRestClient.productV1IdGet("20"))
-        .thenReturn(javax.ws.rs.core.Response.ok().entity(product_2).build());
+    Mockito.when(this.productRestClient.productV1IdGet("10")).thenReturn(product_1);
+    Mockito.when(this.productRestClient.productV1IdGet("20")).thenReturn(product_2);
   }
 }
