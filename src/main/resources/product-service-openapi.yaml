@@ -1,5 +1,5 @@
 # OpenAPI specification of devon4quarkus product service https://github.com/devonfw-sample/devon4quarkus-reference
-# Used by tkit-mp-restclient-plugin to generate the corresponding rest client
+# Used by openapi-generator-maven-plugin to generate the corresponding API for the rest client
 ---
 openapi: 3.0.3
 info:
@@ -11,227 +11,39 @@ tags:
 - name: product
   description: Product API.
 paths:
-  /products:
+  /product/v1:
     get:
-      description: "Returns list of Products matching given criteria, uses pagination"
-      operationId: Get Products
-      parameters:
-      - name: page
-        in: query
-        schema:
-          format: int32
-          default: 0
-          type: integer
-      - name: price
-        in: query
-        schema:
-          type: number
-      - name: priceMax
-        in: query
-        schema:
-          type: number
-      - name: priceMin
-        in: query
-        schema:
-          type: number
-      - name: size
-        in: query
-        schema:
-          format: int32
-          default: 10
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PagedProductResponse'
-        "500": {}
+                $ref: '#/components/schemas/PageProductDto'
     post:
-      description: Stores new Product in DB
-      operationId: createNewProduct
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewProductDto'
+              $ref: '#/components/schemas/ProductDto'
       responses:
-        "201":
-          description: "OK, New Product created"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NewProductDto'
-        "400":
-          description: "Client side error, invalid request"
-        "500": {}
-  /products/criteriaApi:
-    get:
-      parameters:
-      - name: page
-        in: query
-        schema:
-          format: int32
-          default: 0
-          type: integer
-      - name: price
-        in: query
-        schema:
-          type: number
-      - name: priceMax
-        in: query
-        schema:
-          type: number
-      - name: priceMin
-        in: query
-        schema:
-          type: number
-      - name: size
-        in: query
-        schema:
-          format: int32
-          default: 10
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
+        "200":
+          description: OK
+  /product/v1/search:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductSearchCriteriaDto'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PageImplProductDto'
-  /products/nativeQuery:
-    get:
-      parameters:
-      - name: page
-        in: query
-        schema:
-          format: int32
-          default: 0
-          type: integer
-      - name: price
-        in: query
-        schema:
-          type: number
-      - name: priceMax
-        in: query
-        schema:
-          type: number
-      - name: priceMin
-        in: query
-        schema:
-          type: number
-      - name: size
-        in: query
-        schema:
-          format: int32
-          default: 10
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageImplProductDto'
-  /products/ordered:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageImplProductDto'
-  /products/query:
-    get:
-      parameters:
-      - name: page
-        in: query
-        schema:
-          format: int32
-          default: 0
-          type: integer
-      - name: price
-        in: query
-        schema:
-          type: number
-      - name: priceMax
-        in: query
-        schema:
-          type: number
-      - name: priceMin
-        in: query
-        schema:
-          type: number
-      - name: size
-        in: query
-        schema:
-          format: int32
-          default: 10
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageImplProductDto'
-  /products/queryDsl:
-    get:
-      parameters:
-      - name: page
-        in: query
-        schema:
-          format: int32
-          default: 0
-          type: integer
-      - name: price
-        in: query
-        schema:
-          type: number
-      - name: priceMax
-        in: query
-        schema:
-          type: number
-      - name: priceMin
-        in: query
-        schema:
-          type: number
-      - name: size
-        in: query
-        schema:
-          format: int32
-          default: 10
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageImplProductDto'
-  /products/title/{title}:
+                $ref: '#/components/schemas/PageProductDto'
+  /product/v1/title/{title}:
     get:
       parameters:
       - name: title
@@ -246,10 +58,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductDto'
-  /products/{id}:
+  /product/v1/{id}:
     get:
-      description: Returns Product with given id
-      operationId: getProductById
       parameters:
       - name: id
         in: path
@@ -264,12 +74,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductDto'
-        "404":
-          description: Product not found
-        "500": {}
     delete:
-      description: Deletes the Product with given id
-      operationId: deleteProductById
       parameters:
       - name: id
         in: path
@@ -280,18 +85,21 @@ paths:
       responses:
         "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductDto'
-        "404":
-          description: Product not found
-        "500": {}
 components:
   schemas:
-    NewProductDto:
+    PageProductDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductDto'
+    ProductDto:
       type: object
       properties:
+        id:
+          format: int64
+          type: integer
+        modificationCounter:
+          format: int32
+          type: integer
         description:
           description: Product description
           maxLength: 500
@@ -306,38 +114,31 @@ components:
           minLength: 3
           type: string
           nullable: false
-    PageImplProductDto:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProductDto'
-    PagedProductResponse:
+    ProductSearchCriteriaDto:
       type: object
       properties:
-        number:
+        determineTotal:
+          description: determine total
+          type: boolean
+        pageNumber:
           format: int32
+          description: Page Number
+          default: "0"
           type: integer
-        size:
+        pageSize:
           format: int32
-          type: integer
-        stream:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductDto'
-        totalElements:
-          format: int64
-          type: integer
-        totalPages:
-          format: int64
-          type: integer
-    ProductDto:
-      type: object
-      properties:
-        description:
-          type: string
-        id:
-          format: int64
+          description: Page Size
+          default: "10"
           type: integer
         price:
+          description: Product price
+          type: number
+        priceMax:
+          description: Product Max price
+          type: number
+        priceMin:
+          description: Product Min price
           type: number
         title:
+          description: Product title
           type: string

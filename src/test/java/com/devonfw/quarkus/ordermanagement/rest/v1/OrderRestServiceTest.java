@@ -11,40 +11,67 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
-import org.tkit.quarkus.test.WithDBData;
-import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
-import com.devonfw.quarkus.general.restclient.product.ProductsRestClient;
-import com.devonfw.quarkus.general.restclient.product.models.ProductDto;
 import com.devonfw.quarkus.ordermanagement.rest.v1.model.NewOrderDto;
 import com.devonfw.quarkus.ordermanagement.rest.v1.model.OrderSearchCriteriaDto;
+import com.devonfw.quarkus.ordermanagement.restclient.product.ProductRestClient;
+import com.devonfw.quarkus.ordermanagement.restclient.product.models.ProductDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
+import io.restassured.response.Response;
 
-/**
- * Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml. We get a
- * real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
- */
 @QuarkusTest
-@QuarkusTestResource(DockerComposeTestResource.class)
+@QuarkusTestResource(PostgresResource.class)
+@TestMethodOrder(OrderAnnotation.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class OrderRestServiceTest {
 
   private static String BASE_PATH = "/ordermanagement/v1/order";
 
   @InjectMock
   @RestClient
-  private ProductsRestClient productsRestClient;
+  private ProductRestClient productRestClient;
+
+  @BeforeAll
+  private void setup() {
+
+    mockRestClient();
+  }
 
   @Test
-  @WithDBData(value = { "data/order.xls" }, deleteBeforeInsert = true, deleteAfterTest = true)
+  @Order(1)
+  public void createNewOrder() {
+
+    NewOrderDto order = new NewOrderDto();
+    order.setPaymentDate(Instant.now());
+    order.setOrderedProductIds(Arrays.asList(10L, 20L));
+
+    given().when().body(order).contentType(MediaType.APPLICATION_JSON).post(BASE_PATH).then().statusCode(204);
+
+    // get items of created order
+    Response response_items = given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/item/1").then()
+        .statusCode(200).extract().response();
+    List<LinkedHashMap<String, String>> items = response_items.jsonPath().getList("content");
+    assertEquals(items.size(), 2);
+    assertEquals(items.get(0).get("title"), "new product 1");
+    assertEquals(items.get(1).get("title"), "new product 2");
+  }
+
+  @Test
+  @Order(2)
   public void getOrderByCriteria() {
 
     OrderSearchCriteriaDto cto = new OrderSearchCriteriaDto();
@@ -52,27 +79,28 @@ public class OrderRestServiceTest {
     cto.setPriceMax(BigDecimal.valueOf(100));
     cto.setPageable(PageRequest.of(0, 10));
 
-    given().when().contentType(MediaType.APPLICATION_JSON).body(cto).post(BASE_PATH + "/search").then().statusCode(200)
-        .body("totalElements", equalTo(2));
+    io.restassured.response.Response r = given().when().contentType(MediaType.APPLICATION_JSON).body(cto)
+        .post(BASE_PATH + "/search");
+
+    r.then().statusCode(200).body("totalElements", equalTo(1));
 
     cto.setPriceMax(BigDecimal.valueOf(20));
     given().when().contentType(MediaType.APPLICATION_JSON).body(cto).post(BASE_PATH + "/search").then().statusCode(200)
-        .body("totalElements", equalTo(1));
+        .body("totalElements", equalTo(0));
   }
 
   @Test
-  @WithDBData(value = { "data/order.xls" }, deleteBeforeInsert = true, deleteAfterTest = true)
+  @Order(3)
   public void getOrderById() {
 
     given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/1").then().statusCode(200)
-        .body("price", equalTo(38.5F)).body("status", equalTo("OPEN"));
+        .body("price", equalTo(28.5F)).body("status", equalTo("OPEN"));
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/2").then().statusCode(200)
-        .body("price", equalTo(10.0F)).body("status", equalTo("OPEN"));
+    given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/2").then().statusCode(204);
   }
 
   @Test
-  @WithDBData(value = { "data/order.xls" }, deleteBeforeInsert = true, deleteAfterTest = true)
+  @Order(4)
   public void editOrder() {
 
     given().when().contentType(MediaType.APPLICATION_JSON).put(BASE_PATH + "/edit-status/1/paid").then()
@@ -86,30 +114,12 @@ public class OrderRestServiceTest {
   }
 
   @Test
-  public void createNewOrder() {
+  @Order(5)
+  public void deleteOrder() {
 
-    mockRestClient();
-
-    NewOrderDto order = new NewOrderDto();
-    order.setPaymentDate(Instant.now());
-    order.setOrderedProductIds(Arrays.asList(10L, 20L));
-
-    given().when().body(order).contentType(MediaType.APPLICATION_JSON).post(BASE_PATH).then().statusCode(204);
-
-    // re-get the created order
-    given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/1").then().statusCode(200).body("price",
-        equalTo(28.5F));
-
-    // get items of created order
-    io.restassured.response.Response response_items = given().when().contentType(MediaType.APPLICATION_JSON)
-        .get(BASE_PATH + "/item/1").then().statusCode(200).extract().response();
-    List<LinkedHashMap<String, String>> items = response_items.jsonPath().getList("content");
-    assertEquals(items.size(), 2);
-    assertEquals(items.get(0).get("title"), "new product 1");
-    assertEquals(items.get(1).get("title"), "new product 2");
-
-    // deleting created order to reset db state
     given().when().contentType(MediaType.APPLICATION_JSON).delete(BASE_PATH + "/1").then().statusCode(204);
+
+    given().when().contentType(MediaType.APPLICATION_JSON).get(BASE_PATH + "/1").then().statusCode(204);
   }
 
   private void mockRestClient() {
@@ -126,7 +136,7 @@ public class OrderRestServiceTest {
     product_2.setTitle("new product 2");
     product_2.setDescription("description of product 2");
 
-    Mockito.when(this.productsRestClient.getProductById("10")).thenReturn(Response.ok().entity(product_1).build());
-    Mockito.when(this.productsRestClient.getProductById("20")).thenReturn(Response.ok().entity(product_2).build());
+    Mockito.when(this.productRestClient.productV1IdGet("10")).thenReturn(product_1);
+    Mockito.when(this.productRestClient.productV1IdGet("20")).thenReturn(product_2);
   }
 }

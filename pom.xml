@@ -108,6 +108,21 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
     <!--rest client-->
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -121,13 +136,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-logging-json</artifactId>
-    </dependency>
-    <!--tkit-->
-    <dependency>
-      <groupId>org.tkit.quarkus</groupId>
-      <artifactId>tkit-quarkus-test</artifactId>
-      <version>1.12.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -187,34 +195,25 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.tkit.maven</groupId>
-        <artifactId>tkit-mp-restclient-plugin</artifactId>
-        <version>0.11.0</version>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>5.1.0</version>
         <executions>
           <execution>
-            <id>test</id>
             <goals>
-              <goal>codegen</goal>
+              <goal>generate</goal>
             </goals>
             <configuration>
               <inputSpec>src/main/resources/product-service-openapi.yaml</inputSpec>
-              <output>${project.build.directory}/generated-sources/</output>
-              <apiPackage>com.devonfw.quarkus.general.restclient.product</apiPackage>
-              <modelPackage>com.devonfw.quarkus.general.restclient.product.models</modelPackage>
-              <generateSupportingFiles>false</generateSupportingFiles>
-              <apiInterfaceDoc>false</apiInterfaceDoc>
-              <fieldGen>LOMBOK</fieldGen>
-              <jsonLib>JACKSON</jsonLib>
-              <annotations>
-                <annotation>org.eclipse.microprofile.rest.client.inject.RegisterRestClient(configKey="product-service-key")</annotation>
-                <annotation>javax.enterprise.context.ApplicationScoped</annotation>
-              </annotations>
-              <modelAnnotations>
-                <modelAnnotation>lombok.ToString</modelAnnotation>
-                <modelAnnotation>io.quarkus.runtime.annotations.RegisterForReflection</modelAnnotation>
-              </modelAnnotations>
+              <generatorName>jaxrs-spec</generatorName>
+              <apiPackage>com.devonfw.quarkus.ordermanagement.restclient.product</apiPackage>
+              <modelPackage>com.devonfw.quarkus.ordermanagement.restclient.product.models</modelPackage>
               <configOptions>
                 <sourceFolder>restclient</sourceFolder>
+                <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                <useTags>true</useTags>
+                <interfaceOnly>true</interfaceOnly>
+                <generatePom>false</generatePom>
               </configOptions>
             </configuration>
           </execution>
